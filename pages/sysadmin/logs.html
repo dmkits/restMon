@@ -1,0 +1,29 @@
+<LayoutContainer id="sa_logs_PageContainer" style="width:100%;height:100%;margin:0px;padding:0;">
+    <StackContainer id="sa_logs_ContentContainer" region="center" tabPosition="top" style="width:100%;height:100%; margin:5px;padding:0;">
+        <TDocSimpleTable id="sa_logs_TDocDBLogs" title="System logs" iconClass="dijitCheckBoxIcon" style="margin:0;padding:0;"></TDocSimpleTable>
+    </StackContainer>
+</LayoutContainer>
+<script type="text/javascript">                                                                             //log("sysadmin system logs $$",$$);//!!!IT'S FOR TESTING!!!
+    $$.sa_logs_TDocDBLogs
+            .init({titleText:"System logs by date", dataURL:'/sysadmin/logs/getDataForTable',dataURLCondition: {"1~": 1}, buttonPrint:false, rightPane:{width:200}})
+            .addHeaderDateBox("",{initValueDate:"curDate",contentTableCondition:"DATE"})
+            .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:40px;"})
+            .addToolPane({title:"log info",
+                contentTableAction:function(params){
+                    var info="";
+                    if(params.contentTableSelectedRow){
+//                        info+="<b>changeID</b>: "+params.contentTableSelectedRow["changeID"];
+//                        info+="<br><b>changeDatetime</b>: "+params.contentTableSelectedRow["changeDatetime"];
+//                        info+="<br><b>changeObj</b>: "+params.contentTableSelectedRow["changeObj"];
+//                        info+="<br><b>changeVal</b>: "+params.contentTableSelectedRow["changeVal"];
+//                        info+="<br><b>type</b>: "+params.contentTableSelectedRow["type"];
+//                        info+="<br><b>message</b>: "+params.contentTableSelectedRow["message"];
+                    }
+                    params.thisToolPane.set("content",info);
+                }
+            });
+    $$.sa_logs_TDocDBLogs.onShow= function(){
+        if(!$$.sa_logs_TDocDBLogs.startedUp)$$.sa_logs_TDocDBLogs.startupDoc();
+    };
+    $$.sa_logs_TDocDBLogs.onShow();
+</script>
