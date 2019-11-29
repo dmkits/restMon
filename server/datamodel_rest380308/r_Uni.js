@@ -3,9 +3,9 @@ module.exports.modelData = { tableName:"r_Uni",idField:"RefTypeID",
     fields:["RefTypeID","RefID","RefName","Notes"]
 };
 module.exports.changeLog = [
-    {changeID:"r_Uni__1", changeDatetime:"2019-09-05 17:45:00", changeObj:"r_Uni",
+    {changeID:"r_Uni__1", changeDatetime:"2019-11-24 15:11:00", changeObj:"r_Uni",
         changeVal:"update r_Emps set ShiftPostID=0"},
-    {changeID:"r_Uni__2", changeDatetime:"2019-09-05 17:46:00", changeObj:"r_Uni",
+    {changeID:"r_Uni__2", changeDatetime:"2019-11-24 15:12:00", changeObj:"r_Uni",
         changeVal:"delete from r_Uni where RefTypeID=10606 and RefID<>0"},
     {changeID:"r_Uni__3", changeDatetime:"2019-11-24 15:15:00", changeObj:"r_Uni",
         changeVal:"update r_Uni set Notes='unknown',RefName='Нет роли' where RefTypeID=10606 and RefID=0"},

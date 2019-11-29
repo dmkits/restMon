@@ -1,0 +1,153 @@
+/* Your app styles here */
+table {
+    border-collapse: collapse;
+    /*margin:5px;*/
+    /*word-wrap:break-word;*/
+}
+th{
+    border: 1px solid black;
+    background-color: lightblue;
+    font-weight: lighter;
+    padding: 0 0px 0 0px;
+}
+td{
+    border: 1px solid black;
+    padding: 0 0px 0 0px;
+    /*overflow: hidden;*/
+    word-wrap:break-word;
+    /*white-space:pre-wrap;*/
+}
+tfoot td{
+    border: 1px solid black;
+    background-color: lightblue;
+    font-weight: bold;
+    height: 30px;
+    padding: 0px 0px 0px 0px;
+    text-align:center;
+}
+@media (min-width:768px){
+    .md .navbar {
+        height: 56px;
+    }
+    .md .navbar+.toolbar:not(.toolbar-bottom-md):not(.messagebar) {
+        top: 56px;
+    }
+    .md .navbar+.toolbar:not(.toolbar-bottom-md):not(.messagebar)~* .page-content,
+    .md .navbar+.toolbar:not(.toolbar-bottom-md):not(.messagebar)~.page-content {
+        padding-top: 104px;
+    }
+    .md .navbar~.subnavbar~* .page-content,
+    .md .navbar~.subnavbar~.page-content,
+    .md .page-with-subnavbar .navbar~* .page-content,
+    .md .page-with-subnavbar .navbar~.page-content {
+        padding-top: 104px;
+    }
+}
+
+.md .toolbar {
+    /*height: 96px;*/
+}
+.md .list .item-content,
+.md .list .item-inner {
+    min-height:32px;
+}
+.md .list .item-inner {
+    padding-top:4px;
+    padding-bottom:4px;
+}
+
+.ios .navbar,
+.ios .navbar~*,
+.ios .subnavbar,
+.ios .subnavbar~* {
+    border-color: #E4E4E4;;
+}
+
+#login-button-div{
+    text-align: center;
+}
+
+.docsListStockName{
+    font-size:14px;
+}
+.docHeaderTitle{
+    font-size:14px;
+    line-height: 1.0 !important;
+}
+
+.mobile-table-small-size{
+    display:table;
+}
+.mobile-table-large-size{
+    display:none;
+}
+@media (min-width:768px){
+    .mobile-table-small-size{
+        display:none;
+    }
+    .mobile-table-large-size{
+        display:table;
+    }
+}
+.table-header-small{
+    height: 43px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.table-header-large{
+
+}
+.mobile-table-selectedRow{
+    background-color:#cfd5da;
+}
+.table-text{
+    margin-left:5px;
+    margin-right:5px;
+}
+.text-centered{
+    text-align: center;
+}
+.text-right{
+    text-align: right;
+}
+.tdSrcPosID{
+    text-align: center;
+}
+.tdProdName{
+    color:darkblue;
+}
+.tdQty{
+    text-align: center;
+}
+.tdNewQty{
+    text-align: center;
+    font-weight: bold;
+}
+.tdSumCC{
+    text-align: right;
+}
+.table-total{
+
+}
+
+.tableReport{
+    line-height: 1.5;
+    font-size: 12px;
+}
+.tableReportCashierSales{
+    min-width:350px;
+}
+.tableReport th{
+    text-align: center;
+}
+.tableReport .text-centered{
+    text-align: center;
+}
+.tableReport .datetime-cell{
+    padding-left:2px;
+    padding-right:2px;
+    text-align: center;
+}
+.tableReport .numeric-cell{
+    text-align: right;
+}

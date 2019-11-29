@@ -6,7 +6,9 @@
   "modules":[
     "sysadmin",
     "print",
-    "main"
+    "main",
+    "mobile",
+    "mobileRestKitchOrdsForCook"
   ],
   "appMenu":[
     { "menuItemName":"menuBarItemHelpAbout", "menuTitle":"О программе", "action":"help_about" },
@@ -26,7 +28,7 @@
     "cook":{
       "menu":["menuBarItemHelpAbout","menuBarItemClose"],
       "autorun":["menuBarItemHelpAbout"],
-      "mobile":["mobileRestCookMon"]
+      "mobile":["mobileRestKitchOrdsForCook"]
     }
   }
 }
