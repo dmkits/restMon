@@ -19,6 +19,7 @@ var framework7MUIFunctions= {
     srvRequestJSON: function(params,callback){
         if(!params)return;
         if(!params.method)params.method="GET";
+        if((!window.origin||window.origin=="null"||window.origin.indexOf("file")==0)&&params.url) params.url= app7.data['serverURI']+params.url;
         var requestData={};
         if(params.data)requestData=params.data;
         else if(params.conditions&&typeof(params.conditions)=="string") requestData=params.conditions.replace('=','~');
@@ -152,7 +153,7 @@ var framework7MUIFunctions= {
             var dthTR= contentTableHeaderRows[i], newTR;
             newTRs.push(newTR=dthTR.cloneNode(true)); contentTableDataDomEl.appendChild(newTR);
             var rowSelecting= newTR.getAttribute("rowSelecting"),
-                selectOnClickFunction=function(e){                                            console.log("tdOnClickFunction",e);
+                selectOnClickFunction=function(e){
                     $$(contentTableDataDomEl).children('.mobile-table-selectedRow').removeClass('mobile-table-selectedRow');
                     for(var selTR of newTRs) selTR.classList.add('mobile-table-selectedRow');
                 };

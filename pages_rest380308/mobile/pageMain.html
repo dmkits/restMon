@@ -1,108 +1,118 @@
 <!--suppress ALL, JSAnnotator -->
 <template>
-    <div class="page" data-name="pageMain">
-        <div class="panel panel-left panel-reveal" id="main-panel-left">
-            <div class="page">
-                <div class="page-content">
-                    <div class="block">
-                        <div class="list links-list">
-                            <ul>
-                                <li>
-                                    <a href="/pageMain" class="panel-close" data-force="true" data-ignore-cache="true">Вход</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="block" id="main-panel-left-pages">
-                        <div class="block-title">Страницы</div>
-                        <div class="list links-list">
-                            <ul>
-                                <li>
-                                    <a href="/pageRestKitchenOrdersForCooking" class="panel-close" data-force="true" data-ignore-cache="true">Монитор заказов<br> на кухню</a>
-                                </li>
-                                <!--<li>-->
-                                <!--<a href="/pageListExcs" class="panel-close" data-force="true" data-ignore-cache="true">Перемещения товара</a>-->
-                                <!--</li>-->
-                            </ul>
-                        </div>
-                        <div class="block-title">Настройки страниц</div>
-                        <div class="list links-list">
-                            <ul>
-                                <li>
-                                    <a href="/pageRestKitchenOrdersForCookingSettings" class="panel-close">Монитор заказов<br> на кухню</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="block" id="main-panel-left-settings">
-                        <div class="block-title">Справка</div>
-                        <div class="list links-list">
-                            <ul>
-                                <li>
-                                    <a href="/pageHelpAbout" class="panel-close">О программе</a>
-                                </li>
-                            </ul>
-                        </div>
+<div class="page" data-name="pageMain">
+    <div class="panel panel-left panel-reveal" id="main-panel-left">
+        <div class="page">
+            <div class="page-content">
+                <div class="block">
+                    <div class="list links-list">
+                        <ul>
+                            <li>
+                                <a href="/pageMain" class="panel-close" data-force="true" data-ignore-cache="true">Вход</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="navbar">
-            <div class="navbar-inner">
-                <div class="left">
-                    <a href="#" class="link icon-only panel-open" data-panel="left">
-                        <i class="icon f7-icons">menu</i>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="page-content login-screen-content" id="pageMain-mobileLogin">
-            <div id="mobileLogin-mainLogo" class="block main-logo"></div>
-            <div id="mobileLogin-mainModeDebug" class="block" style="display:none;color:red;font-size:27px;font-weight:bold;text-align:center"></div>
-            <!--<div class="login-screen-title">Авторизация</div>-->
-            <div class="list no-hairlines-md" style="margin-bottom:0">
-                <ul>
-                    <li class="item-content item-input">
-                        <div class="item-inner">
-                            <div class="item-title item-label">Имя пользователя</div>
-                            <div class="item-input-wrap">
-                                <input id="mobileLogin-inputUsername" type="text" placeholder="Имя пользователя">
-                                <span class="input-clear-button"></span>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item-content item-input">
-                        <div class="item-inner">
-                            <div class="item-title item-label">Пароль</div>
-                            <div class="item-input-wrap">
-                                <input id="mobileLogin-inputUPswrd" type="password" placeholder="Пароль">
-                                <span class="input-clear-button"></span>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="block" style="margin-top:0">
-                <div class="row list" style="margin-top:0;margin-bottom:0">
-                    <div class="col" style="width:0px"></div>
-                    <div class="col" style="width:auto;padding-right:0">
-                        <label class="item-checkbox item-content" style="padding-left:0">
-                            <input id="mobileLogin-checkboxStoreUser" type="checkbox" value=""/>
-                            <i class="icon icon-checkbox"></i>
-                            <div class="item-title">Запомнить меня</div>
-                        </label>
-
+                <div class="block" id="main-panel-left-pages">
+                    <div class="block-title">Страницы</div>
+                    <div class="list links-list">
+                        <ul>
+                            <li>
+                                <a href="/pageRestKitchenOrdersForCooking" class="panel-close" data-force="true" data-ignore-cache="true">Монитор заказов<br> на кухню</a>
+                            </li>
+                            <!--<li>-->
+                            <!--<a href="/pageListExcs" class="panel-close" data-force="true" data-ignore-cache="true">Перемещения товара</a>-->
+                            <!--</li>-->
+                        </ul>
                     </div>
-                    <div class="col" style="width:0px"></div>
+                    <div class="block-title">Настройки страниц</div>
+                    <div class="list links-list">
+                        <ul>
+                            <li>
+                                <a href="/pageRestKitchenOrdersForCookingSettings" class="panel-close">Монитор заказов<br> на кухню</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="row">
-                    <div class="col" style="width:0px"></div>
-                    <button id="mobileLogin-btnLogin" class="col button button-fill button-round" style="width:200px">ВОЙТИ</button>
-                    <div class="col" style="width:0px"></div>
+                <div class="block" id="main-panel-left-mAppSettings" style="display:none">
+                    <div class="block-title">Общие настройки</div>
+                    <div class="list links-list">
+                        <ul>
+                            <li>
+                                <a href="/pageSettingsMAppCommon" class="panel-close">Доступ и устройство</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="block" id="main-panel-left-help">
+                    <div class="block-title">Справка</div>
+                    <div class="list links-list">
+                        <ul>
+                            <li>
+                                <a href="/pageHelpAbout" class="panel-close">О программе</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left">
+                <a href="#" class="link icon-only panel-open" data-panel="left">
+                    <i class="icon f7-icons">menu</i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="page-content login-screen-content" id="pageMain-mobileLogin">
+        <div id="mobileLogin-mainLogo" class="block main-logo"></div>
+        <div id="mobileLogin-mainModeDebug" class="block" style="display:none;color:red;font-size:27px;font-weight:bold;text-align:center"></div>
+        <!--<div class="login-screen-title">Авторизация</div>-->
+        <div class="list no-hairlines-md" style="margin-bottom:0">
+            <ul>
+                <li class="item-content item-input">
+                    <div class="item-inner">
+                        <div class="item-title item-label">Имя пользователя</div>
+                        <div class="item-input-wrap">
+                            <input id="mobileLogin-inputUsername" type="text" placeholder="Имя пользователя">
+                            <span class="input-clear-button"></span>
+                        </div>
+                    </div>
+                </li>
+                <li class="item-content item-input">
+                    <div class="item-inner">
+                        <div class="item-title item-label">Пароль</div>
+                        <div class="item-input-wrap">
+                            <input id="mobileLogin-inputUPswrd" type="password" placeholder="Пароль">
+                            <span class="input-clear-button"></span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="block" style="margin-top:0">
+            <div class="row list" style="margin-top:0;margin-bottom:0">
+                <div class="col" style="width:0px"></div>
+                <div class="col" style="width:auto;padding-right:0">
+                    <label class="item-checkbox item-content" style="padding-left:0">
+                        <input id="mobileLogin-checkboxStoreUser" type="checkbox" value=""/>
+                        <i class="icon icon-checkbox"></i>
+                        <div class="item-title">Запомнить меня</div>
+                    </label>
+
+                </div>
+                <div class="col" style="width:0px"></div>
+            </div>
+            <div class="row">
+                <div class="col" style="width:0px"></div>
+                <button id="mobileLogin-btnLogin" class="col button button-fill button-round" style="width:200px">ВОЙТИ</button>
+                <div class="col" style="width:0px"></div>
+            </div>
+        </div>
+    </div>
+</div>
 </template>
 <script>
     return {
@@ -111,6 +121,7 @@
                 if(!app7.panelLeft) app7.panelLeft= app7.panel.create({el:'.panel-left',
                     resizable: true, visibleBreakpoint:1024, collapsedBreakpoint:768
                 });
+                if(app7.initViewMApp) app7.initViewMApp($$("#main-panel-left-mAppSettings"));
                 var self=this;
                 $$('#pageMain-mobileLogin #mobileLogin-btnLogin').on('click',function(){ self.loginProcess(); });
                 $$('#pageMain-mobileLogin #mobileLogin-inputUPswrd').on('keypress',function(e){
@@ -134,7 +145,7 @@
             initData: function(){
                 app7.data.uuid=""; document.cookie="uuid=0;path=/;";
                 $$('#appbar-user').text("");$$('#appbar-modeMsg').text("");
-                app7.data['restKitchOrdsForCookList_RefreshTime']=500;//ms
+                app7.data['restKitchOrdsForCookList_RefreshTime']=10;//s
                 if(typeof(Storage)!=="undefined"){
                     var restKitchOrdsForCookListRefreshTime=localStorage.getItem("settings-restKitchOrdsForCookList-refreshTime");
                     if(restKitchOrdsForCookListRefreshTime&&!isNaN(parseInt(restKitchOrdsForCookListRefreshTime)))
@@ -187,7 +198,9 @@
                             app7.data["dbName"]= (result)?result.dbName:null;
                             app7.data["dbUserError"]= (result)?result.dbUserError:null;
                             app7.data["dbUserName"]= (result)?result.dbUserName:null;
-                            $$('#appbar-user').text(app7.data["dbUserName"]);
+                            var dbEmpName= (result)?result.dbEmpName:null;
+                            app7.data["dbEmpName"]= dbEmpName;
+                            $$('#appbar-user').text(app7.data["dbUserName"]+((dbEmpName)?" ("+dbEmpName+")":""));
                             app7.data["dbEmpRole"]= (result)?result.dbEmpRole:null;
                             if(!result||!result.uuid){ $$('#pageMain-mobileLogin #mobileLogin-inputUPswrd').focus(); return; }
                             var sErrMsg=null;
@@ -210,11 +223,13 @@
                             }else{// Sorry! No Web Storage support..
                             }
                             app7.data.uuid=result.uuid;
-                            app7.request.setup({ headers:{'uuid':result.uuid} });
+                            if(app7.mAppAcceessToServer) app7.mAppAcceessToServer(result.uuid);
                             self.setUserRoutes();
                         });
             },
             setUserRoutes: function(){
+                var lPanelPagesItems= $$("#main-panel-left-pages li a");
+                app7.panelLeft.$el.find('#main-panel-left-pages').hide();
                 app7.srvRequestJSON({url:'/mobile/getUserRoutes', errorDialogMsg:"Не удалось получить данные для загрузки!"},
                         function(result,errmsg){
                             if(!result){
@@ -222,20 +237,21 @@
                                 mainView.router.routes= baseRoutes;
                                 return;
                             }
+                            if(app7.setMAppRoutes) app7.setMAppRoutes(result);
+                            if(app7.convertRoutesForMApp) app7.convertRoutesForMApp(result);
                             mainView.router.routes=result;
                             var userRoutes={}, definePath;
                             for(var userRoutesItem of result){
                                 userRoutes[userRoutesItem.path]=true;
                                 if(!definePath&&userRoutesItem&&userRoutesItem.define) definePath=userRoutesItem.path;
-                                if(app7.convertRoutesForMApp) app7.convertRoutesForMApp(userRoutesItem);
                             }
-                            var panelItems=$$("#main-panel-left-pages li a"),hasVisible=false;
-                            for(var i=0; i<panelItems.length; i++){
-                                var panelItem=panelItems[i], visible=userRoutes[panelItem.getAttribute("href")];
-                                if(visible)$$(panelItem).show();else $$(panelItem).hide();
-                                hasVisible=visible||hasVisible;
+                            var hasVisible=false;
+                            for(var i=0;i<lPanelPagesItems.length;i++){
+                                var panelItem= lPanelPagesItems[i], visible= userRoutes[panelItem.getAttribute("href")];
+                                if(visible) $$(panelItem).show();
+                                hasVisible= visible||hasVisible;
                             }
-                            if(hasVisible)app7.panelLeft.$el.find('#main-panel-left-pages').show();;
+                            if(hasVisible) app7.panelLeft.$el.find('#main-panel-left-pages').show();
                             if(!definePath)return;
                             mainView.router.navigate(definePath);
                         });

@@ -122,7 +122,7 @@ module.exports= function(app){
             "EmpName=(select EmpName from r_Users u, r_Emps e where e.EmpID=u.EmpID and u.UserName=SUSER_NAME()),"+
             "EmpRole=(select un.Notes from r_Users u, r_Emps e,r_Uni un where e.EmpID=u.EmpID and u.UserName=SUSER_NAME() and un.RefTypeID=10606 and un.RefID=e.ShiftPostID)",
             function(err,recordset){
-                if(err||(recordset&&recordset.length==0)){
+                if(err||!recordset||recordset.length==0){
                     callback("Не удалось получить данные пользователя из базы даных! Обратитесь к системному администратору.");
                     return;
                 }
@@ -217,9 +217,8 @@ module.exports= function(app){
                 });
                 return;
             }
-            req.dbUserParams=dbUserParameters;
-            req.dbUserName=dbUserParameters.dbUserName;                                                         log.info('ACCESS CONTROLLER: dbUserName=',req.dbUserName,'dbUserParams=',req.dbUserParams);
-            req.dbEmpRole=(dbUserParameters)?dbUserParameters["EmpRole"]:null;
+            req.dbUserParams= dbUserParameters; req.dbUserName= dbUserParameters["dbUserName"];                 log.info('ACCESS CONTROLLER: dbUserName=',req.dbUserName,'dbUserParams=',req.dbUserParams);
+            req.dbEmpName= dbUserParameters["EmpName"]; req.dbEmpRole= (dbUserParameters)?dbUserParameters["EmpRole"]:null;
             var validateError=appModules.getValidateError();
             if(validateError){
                 accessFail(req,res,next,{
@@ -301,8 +300,8 @@ module.exports= function(app){
             getDBUserData(result.dbUC, function(errMsg,dbUserParameters){
                 if(errMsg) outData.dbUserError= errMsg;
                 if(dbUserParameters){
-                    outData.dbUserName= dbUserParameters.dbUserName;
-                    outData.dbEmpRole= dbUserParameters["EmpRole"];
+                    outData.dbUserName= dbUserParameters["dbUserName"];
+                    outData.dbEmpName= dbUserParameters["EmpName"]; outData.dbEmpRole= dbUserParameters["EmpRole"];
                 }
                 res.send(outData);
             });

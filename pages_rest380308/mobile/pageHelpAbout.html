@@ -63,7 +63,9 @@
     return {
         on: {
             pageAfterIn: function(e,page){
-                $$("#pageHelpAbout-appName").html(this.$app.data['appName']);
+                var appName= app7.appName||this.$app.data['appName'];
+                if(app7.data.aidcn) appName+= " ("+app7.data.aidcn+")"
+                $$("#pageHelpAbout-appName").html(appName);
                 var appVer= "Приложение: "+this.$app.version,
                         appVerSrv= this.$app.data['appVerSrv'], appCVer= this.$app.data['appCVer'];
                 if(appVerSrv!=null){

@@ -34,8 +34,8 @@
     <div class="appbar">
         <div class="appbar-inner">
             <div style="display:table;width:100%;min-height:25px;text-align:center">
-                <span id="appbar-user" style="display:table-cell;font-size:18px;font-weight:bold"></span>
-                <span id="appbar-modeMsg" style="display:table-cell;color:red;font-size:18px;font-weight:bold"></span>
+                <span id="appbar-user" style="display:table-cell;font-size:18px;font-weight:bold;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+                <span id="appbar-modeMsg" style="display:table-cell;color:red;font-size:18px;font-weight:bold;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
             </div>
         </div>
     </div>
@@ -51,7 +51,7 @@
                 { path: '(.*)', url: './mobile/actionError' }// Default route (404 page). MUST BE THE LAST
             ],
             app7= new Framework7({// Framework7 App main instance
-                id:'io.framework7.mobile.gabis', version:"1.0.0",
+                id:'io.framework7.mobile.restmon', version:"1.0.0",
                 root: '#app', // app7 root element
                 theme: 'ios', // 'auto' - Automatic theme detection, Can be md, ios or aurora
                 routes: baseRoutes,

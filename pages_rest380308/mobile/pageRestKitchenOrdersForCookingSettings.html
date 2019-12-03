@@ -1,44 +1,44 @@
 <!--suppress ALL, JSAnnotator -->
 <template>
-    <div class="page" id="pageRestKitchOrdsForCookSettings">
-        <div class="navbar">
-            <div class="navbar-inner">
-                <div class="left">
-                    <a href="#" class="link back">
-                        <i class="icon icon-back"></i><i class="icon icon-back"></i>
-                        <!--<span class="ios-only">Назад</span>-->
-                    </a>
-                </div>
-                <div class="title">Настройки монитора<br> заказов кухни</div>
+<div class="page" id="pageRestKitchOrdsForCookSettings">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left">
+                <a href="#" class="link back">
+                    <i class="icon icon-back"></i><i class="icon icon-back"></i>
+                    <!--<span class="ios-only">Назад</span>-->
+                </a>
             </div>
+            <div class="title">Настройки монитора<br> заказов кухни</div>
         </div>
-        <div class="page-content">
-            <div class="block-title">Список заказов на кухню</div>
-            <div class="list no-hairlines-md">
-                <ul>
-                    <li class="item-content item-input">
-                        <div class="item-inner">
-                            <div class="item-title item-label">Время обновления списка заказов</div>
-                            <div class="item-input-wrap">
-                                <input id="inputPageRestKitchOrdsForCookRefreshTime" type="text" placeholder="Время обновления списка заказов (мс)">
-                            </div>
+    </div>
+    <div class="page-content">
+        <div class="block-title">Список заказов на кухню</div>
+        <div class="list no-hairlines-md">
+            <ul>
+                <li class="item-content item-input">
+                    <div class="item-inner">
+                        <div class="item-title item-label">Время обновления списка заказов (сек)</div>
+                        <div class="item-input-wrap">
+                            <input id="inputPageRestKitchOrdsForCookRefreshTime" type="text" placeholder="Время обновления списка заказов (сек)">
                         </div>
-                    </li>
-                </ul>
-                <div class="row" style="margin-top:10px">
-                    <div class="col" style="width:0px"></div>
-                    <button class="col button button-fill button-round" style="width:200px" @click="buttonStoreClick">СОХРАНИТЬ</button>
-                    <div class="col" style="width:0px"></div>
-                </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="row" style="margin-top:10px">
+                <div class="col" style="width:0px"></div>
+                <button class="col button button-fill button-round" style="width:200px" @click="buttonStoreClick">СОХРАНИТЬ</button>
+                <div class="col" style="width:0px"></div>
             </div>
         </div>
     </div>
+</div>
 </template>
 <script>
     return {
         on: {
             pageAfterIn: function(e,page){
-                $$("#inputPageRestKitchOrdsForCookRefreshTime").val(this.$app.data['restKitchOrdsForCookList_RefreshTime']);
+                $$("#inputPageRestKitchOrdsForCookRefreshTime").val(app7.data['restKitchOrdsForCookList_RefreshTime']);
             }
         },
         methods: {
@@ -48,7 +48,7 @@
                     localStorage.setItem("settings-restKitchOrdsForCookList-refreshTime",restKitchOrdsForCookListRefreshTime);
                 } else {// Sorry! No Web Storage support..
                 }
-                this.$app.data['restKitchOrdsForCookList_RefreshTime']= restKitchOrdsForCookListRefreshTime;
+                app7.data['restKitchOrdsForCookList_RefreshTime']= restKitchOrdsForCookListRefreshTime;
             }
         }
     }
