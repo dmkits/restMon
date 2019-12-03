@@ -54,11 +54,11 @@ module.exports.init = function(app){
                         errorMessage:"Не удалось получить фильтр категорий для списка товаров в заказах на кухню!"});
                     return;
                 }
-                var conditions={"PrintTime is not null":null,
-                        "((FactServingTime is null and PosStatus=1) or datediff(minute,FactServingTime,GETDATE())<=5)":null
-                    },
+                var cookedOrdsShowTime= req.query["CookedOrdsShowTime~"], cookedOrdsShowTime= (!isNaN(cookedOrdsShowTime))?cookedOrdsShowTime:5,
+                    conditions={"PrintTime is not null":null},
+                    condKitchOrders= "((FactServingTime is null and PosStatus=1) or datediff(minute,FactServingTime,GETDATE())<"+cookedOrdsShowTime+")",
                     iRestKitCatsFilter="r_Prods.PCatID in ("+resultGetVarRestKitCats.item["VarValue"]+")";
-                conditions[iRestKitCatsFilter]=null;
+                conditions[condKitchOrders]=null; conditions[iRestKitCatsFilter]=null;
                 t_SaleTempD.getDataItemsForTable(req.dbUC,{tableColumns:tSaleTempDTableColumns, conditions:conditions,
                         order:"CASE When FactServingTime is null Then 1 Else -datediff(minute,FactServingTime,GETDATE()) END, PrintTime"},
                     function(result){

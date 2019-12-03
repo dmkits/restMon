@@ -146,10 +146,14 @@
                 app7.data.uuid=""; document.cookie="uuid=0;path=/;";
                 $$('#appbar-user').text("");$$('#appbar-modeMsg').text("");
                 app7.data['restKitchOrdsForCookList_RefreshTime']=10;//s
+                app7.data['restKitchOrdsForCookList_CookedOrdsShowTime']=5;//min
                 if(typeof(Storage)!=="undefined"){
-                    var restKitchOrdsForCookListRefreshTime=localStorage.getItem("settings-restKitchOrdsForCookList-refreshTime");
+                    var restKitchOrdsForCookListRefreshTime= localStorage.getItem("settings-restKitchOrdsForCookList-refreshTime"),
+                            restKitchCookedOrdsShowTime= localStorage.getItem("settings-restKitchOrdsForCookList-cookedOrdsShowTime");
                     if(restKitchOrdsForCookListRefreshTime&&!isNaN(parseInt(restKitchOrdsForCookListRefreshTime)))
                         app7.data['restKitchOrdsForCookList_RefreshTime']= parseInt(restKitchOrdsForCookListRefreshTime);
+                    if(restKitchCookedOrdsShowTime&&!isNaN(parseInt(restKitchCookedOrdsShowTime)))
+                        app7.data['restKitchOrdsForCookList_CookedOrdsShowTime']= parseInt(restKitchCookedOrdsShowTime);
                 }else{// Sorry! No Web Storage support..
                 }
             },

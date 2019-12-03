@@ -152,9 +152,10 @@
             loadRestKitchOrdsForCookData: function(finishedAction){
                 this.setBarcodeInputState({focus:true,enable:false});
                 this.setTotalInfo(0,0,{reset:true});
-                let self=this;
+                var self=this, restKitchCookedOrdsShowTime= app7.data['restKitchOrdsForCookList_CookedOrdsShowTime'];
                 app7.preloader.show();
-                app7.srvRequestJSON({url:'/mobile/restKitchOrdsForCook/getDataForRestKitchOrdsForCookDataTable',//conditions:{'ParentChID=':excChID},
+                app7.srvRequestJSON({url:'/mobile/restKitchOrdsForCook/getDataForRestKitchOrdsForCookDataTable',
+                            conditions:{'CookedOrdsShowTime=':restKitchCookedOrdsShowTime},
                             errorDialogMsg:"Не удалось получить перечень заказов на кухню с сервера!"},
                         function(result,error){
                             app7.preloader.hide();

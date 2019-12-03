@@ -25,6 +25,16 @@
                     </div>
                 </li>
             </ul>
+            <ul>
+                <li class="item-content item-input">
+                    <div class="item-inner">
+                        <div class="item-title item-label">Время отображения сделанных заказов (мин)</div>
+                        <div class="item-input-wrap">
+                            <input id="inputPageRestKitchCookedOrdsShowTime" type="text" placeholder="Время отображения сделанных заказов (мин)">
+                        </div>
+                    </div>
+                </li>
+            </ul>
             <div class="row" style="margin-top:10px">
                 <div class="col" style="width:0px"></div>
                 <button class="col button button-fill button-round" style="width:200px" @click="buttonStoreClick">СОХРАНИТЬ</button>
@@ -39,16 +49,22 @@
         on: {
             pageAfterIn: function(e,page){
                 $$("#inputPageRestKitchOrdsForCookRefreshTime").val(app7.data['restKitchOrdsForCookList_RefreshTime']);
+                $$("#inputPageRestKitchCookedOrdsShowTime").val(app7.data['restKitchOrdsForCookList_CookedOrdsShowTime']);
             }
         },
         methods: {
             buttonStoreClick: function(){
-                let restKitchOrdsForCookListRefreshTime= $$("#inputPageRestKitchOrdsForCookRefreshTime").val();
-                if (typeof(Storage)!=="undefined"&&restKitchOrdsForCookListRefreshTime&&restKitchOrdsForCookListRefreshTime.toString().trim()!=""){
-                    localStorage.setItem("settings-restKitchOrdsForCookList-refreshTime",restKitchOrdsForCookListRefreshTime);
-                } else {// Sorry! No Web Storage support..
+                var restKitchOrdsForCookListRefreshTime= $$("#inputPageRestKitchOrdsForCookRefreshTime").val(),
+                        restKitchCookedOrdsShowTime= $$("#inputPageRestKitchCookedOrdsShowTime").val();
+                if(typeof(Storage)!=="undefined"){
+                    if(restKitchOrdsForCookListRefreshTime&&restKitchOrdsForCookListRefreshTime.toString().trim()!="")
+                        localStorage.setItem("settings-restKitchOrdsForCookList-refreshTime",restKitchOrdsForCookListRefreshTime);
+                    if(restKitchCookedOrdsShowTime&&restKitchCookedOrdsShowTime.toString().trim()!="")
+                        localStorage.setItem("settings-restKitchOrdsForCookList-cookedOrdsShowTime",restKitchCookedOrdsShowTime);
+                }else{// Sorry! No Web Storage support..
                 }
                 app7.data['restKitchOrdsForCookList_RefreshTime']= restKitchOrdsForCookListRefreshTime;
+                app7.data['restKitchOrdsForCookList_CookedOrdsShowTime']= restKitchCookedOrdsShowTime;
             }
         }
     }
