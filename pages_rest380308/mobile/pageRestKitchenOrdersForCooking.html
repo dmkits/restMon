@@ -41,13 +41,13 @@
             </tr>
             </thead>
             <tbody style="display:none">
-            <tr rowSelecting="true" onClick="restKitchOrdsForCookTableTROnClick">
+            <tr rowSelecting="true" onCreated="restKitchOrdsForCookTableTROnCreated" onClick="restKitchOrdsForCookTableTROnClick">
                 <td width="75px" class="text-centered" dataItemName="OrderID"><div class="table-text"></div></td>
                 <td rowSpan="2" class="tdProdName" dataItemName="ProdName"><div class="table-text"></div></td>
                 <td width="45px" class="tdQty" dataItemName="Qty"><div class="table-text"></div></td>
-                <td width="65px" rowSpan="2" class="text-centered" dataItemName="WaitTime"><div class="table-text" style="font-weight:bold"></div></td>
+                <td width="65px" rowSpan="2" class="text-centered" dataItemName="sWaitTime"><div class="table-text" style="font-weight:bold"></div></td>
             </tr>
-            <tr rowSelecting="true" onClick="restKitchOrdsForCookTableTROnClick">
+            <tr rowSelecting="true" onCreated="restKitchOrdsForCookTableTROnCreated" onClick="restKitchOrdsForCookTableTROnClick">
                 <td width="75px" class="text-centered" dataItemName="sPrintTimeSmall"><div class="table-text"></div></td>
                 <td width="45px" class="text-centered" dataItemName="UM"><div class="table-text"></div></td>
             </tr>
@@ -57,7 +57,7 @@
             <thead>
             <tr width="100%" style="font-size:18px">
                 <th width="110px"><div class="table-header-large">Код заказа</div></th>
-                <th width="80px"><div class="table-header-large">Начало заказа</div></th>
+                <th width="85px"><div class="table-header-large">Начало заказа</div></th>
                 <th><div class="table-header-large">Наименование товара</div></th>
                 <th width="60px"><div class="table-header-large">Ед.<br>изм.</div></th>
                 <th width="60px"><div class="table-header-large">Кол-во</div></th>
@@ -65,13 +65,13 @@
             </tr>
             </thead>
             <tbody style="display:none">
-            <tr style="font-size:18px" rowSelecting="true" onClick="restKitchOrdsForCookTableTROnClick">
+            <tr style="font-size:18px" rowSelecting="true" onCreated="restKitchOrdsForCookTableTROnCreated" onClick="restKitchOrdsForCookTableTROnClick">
                 <td width="110px" class="text-centered" dataItemName="OrderID"><div class="table-text"></div></td>
-                <td width="80px" class="text-centered" dataItemName="sPrintTime"><div class="table-text"></div></td>
+                <td width="85px" class="text-centered" dataItemName="sPrintTime"><div class="table-text"></div></td>
                 <td class="tdProdName" dataItemName="ProdName"><div class="table-text"></div></td>
                 <td width="60px" class="text-centered" dataItemName="UM"><div class="table-text"></div></td>
                 <td width="60px" class="tdQty" dataItemName="Qty"><div class="table-text"></div></td>
-                <td width="100px" class="text-centered" dataItemName="WaitTime"><div class="table-text" style="font-weight:bold"></div></td>
+                <td width="100px" class="text-centered" dataItemName="sWaitTime"><div class="table-text" style="font-weight:bold"></div></td>
             </tr>
             </tbody>
         </table>
@@ -181,6 +181,13 @@
                             });
                         })
             },
+            /*
+            * */
+            restKitchOrdsForCookTableTROnCreated: function(tr,tableDataItem,trs,methods){
+                if(tableDataItem&&tableDataItem["FactServingTime"]!=null){
+                    tr.style.backgroundColor="lightgreen"; tr.style["font-weight"]="bold";
+                }
+            },
             refreshRestKitchOrdsForCookDataByTimeout: function(){
                 var timeoutMS= app7.data['restKitchOrdsForCookList_RefreshTime']*1000;
                 if(isNaN(timeoutMS)){
@@ -287,87 +294,12 @@
                 var trs= this.contentTableDataDomTRs[rkfcOrderItemData["OrderID"]];
                 if(!trs||trs.length==0) return;
                 for(var tr of trs){
-                    tr.style.backgroundColor="lightgreen";
-                    $$(tr).children('td[dataItemName="WaitTime"]').html("<b>ГОТОВО</b>");
+                    tr.style.backgroundColor="lightgreen"; tr.style["font-weight"]="bold";
+                    $$(tr).children('td[dataItemName="sWaitTime"]').html("ГОТОВО");
                     if(tr.clientHeight==0||tr.clientWidth==0) continue;
                     this.setScroll(tr);
                 }
             },
-//            addRowToTable: function(rkfcOrderItemData){
-//                if(!rkfcOrderItemData) rkfcOrderItemData={Qty:0};
-//
-//                var existsTDQty=null;//$$(this.contentTableDataDomEl).children("tr").children("#id_"+rkfcOrderItemData["ChID"]+"_"+rkfcOrderItemData["SrcPosID"])[0];
-//
-//                var tr= this.contentTableDataDomTRs[rkfcOrderItemData["OrderID"]];
-//
-//                if(tr){                                                                                             console.log("addRowToTable tr",tr);
-////                    let oldQty=parseFloat(existsTDQty.dataTableRowData["Qty"]), qty=rkfcOrderItemData["Qty"];
-////                    existsTDQty.innerText=newQty; existsTDQty.Qty=qty;
-////                    existsTDQty.dataTableRowData["Qty"]=qty;
-////                    existsTDQty.doSelect();
-//                    this.setScroll(tr);
-////                    this.setTotalInfo(qty-oldQty);
-//                    return;
-//                }
-////                app7.innerPageCreateTableRow(this.contentTableHeaderDomEl,this.contentTableDataDomEl, rkfcOrderItemData, this);
-//                rkfcOrderItemData.tableTDQty.doSelect();
-//                this.setTotalInfo(rkfcOrderItemData["Qty"]);
-//                this.setScroll(rkfcOrderItemData.tableTDQty);
-//            },
-
-//            showDialogExcDEditNewQty: function(tdNewQty,tableDataItem){
-//                let thisInstance=this,
-//                    dialogEditNewQty=app7.dialog.create({ title:"Фактическое количество", destroyOnClose:true, text:tableDataItem.ProdName,
-//                        content:'<span id="dialogExcDEditNewQtyErrMsg" style="color:red;font-weight:bold;font-size:14px;line-height:1;"></span>'+
-//                            '<br><input id="inputExcDNewQty" type="number" style="text-align:center;border:solid 1px grey;padding:5px"></<input>',
-//                        on:{
-//                            open:function(){
-//                                $$("#dialogExcDEditNewQtyErrMsg").html("");
-//                                $$("#inputExcDNewQty").val(tableDataItem.NewQty).focus();document.getElementById("inputExcDNewQty").select();
-//                                document.getElementById("inputExcDNewQty").onkeydown=function(e){
-//                                    if(e.key=="Escape"||e.code=="Escape"||e.keyCode==27)dialogEditNewQty.close();
-//                                    else if(e.key=="Enter"||e.code=="Enter"||e.keyCode==13)dialogEditNewQty.params.buttons[0].onClick();
-//                                };
-//                            },
-//                        },
-//                        buttons:[
-//                            { text:"ВВОД",close:false,keyCodes:[13],onClick:function(){
-//                                let val=parseFloat($$("#inputExcDNewQty").val());
-//                                if(isNaN(val)){
-//                                    $$("#dialogExcDEditNewQtyErrMsg").html("Неверное значение количества!");
-//                                    $$("#inputExcDNewQty").focus();document.getElementById("inputExcDNewQty").select();
-//                                    return;
-//                                }
-//                                thisInstance.storeNewQtyToExcD(tableDataItem.SrcPosID,tableDataItem.ProdID,val,
-//                                    function(storeResult,errMsg){
-//                                        if(errMsg){
-//                                            $$("#dialogExcDEditNewQtyErrMsg").html(errMsg);
-//                                            $$("#inputExcDNewQty").focus();document.getElementById("inputExcDNewQty").select();
-//                                            return;
-//                                        }
-//                                        var oldNewQty=tableDataItem["NewQty"];
-//                                        tableDataItem["NewQty"]=val;tdNewQty.innerText=val.toString();
-//                                        thisInstance.setTotalInfo(0);
-//                                        dialogEditNewQty.close();
-//                                    })
-//                            } },
-//                            { text:"ОТМЕНА",close:true,keyCodes:[27] } ]
-//                    }).open().on("closed",function(){ thisInstance.setBarcodeInputState({focus:true}); });
-//            },
-//            storeNewQtyToExcD: function(srcPosID,prodID,newQty,callback){
-//                let cInstance=this, parentChID=this.item.ChID;                                                  //console.log('pageRestKitchenOrdersForCooking.html storeNewQtyToExcD tSrcPosID=',tSrcPosID, tNewQty);
-//                app7.preloader.show();
-//                app7.srvPostRequestJSON({url:'/mobile/excDelivery/storeNewQtyData',data:{parentChID:parentChID,SrcPosID:srcPosID,NewQty:newQty},
-//                            showRequestErrorDialog:false},
-//                    function(result,errmsg){
-//                        app7.preloader.hide();// Hide Preloader
-//                        if(!result||!result.resultItem){
-//                            callback(null,(errmsg||"Не удалось сохранить данные на сервере!")); return;
-//                        }
-//                        let excDData=result.resultItem;
-//                        callback(excDData);
-//                    })
-//            },
             setScroll: function(innerElem){
                 var page=this.pageRestKitchOrdsForCookContent[0],
                         absoluteElementTop = innerElem.getBoundingClientRect().top + page.scrollTop;

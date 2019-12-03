@@ -37,8 +37,14 @@ module.exports.init = function(app){
                 "+' '+convert(varchar(20),DATEPART(day,PrintTime))+'.'+convert(varchar(20),DATEPART(month,PrintTime))"},
         {data: "OrderID", name: "Номер заказа", width: 50, type: "text", dataSource:"t_SaleTempD", visible:true},
         {data: "ServingTime", name: "Время подачи", width: 60, type: "dateAsText",align:"center", dataSource:"t_SaleTempD"},
+        {data: "FactServingTime", name: "Время выдачи", width: 60, type: "dateAsText",align:"center", dataSource:"t_SaleTempD"},
+        {data: "FactServingTimeout", name: "Прошло с выдачи", width: 60, type: "dateAsText",align:"center", dataSource:"t_SaleTempD",
+            dataFunction:"datediff(minute,FactServingTime,GETDATE())"},
         {data: "WaitTime", name: "Время ожидания", width: 60, type: "dateAsText",align:"center", dataSource:"t_SaleTempD",
-            dataFunction:"convert(varchar(20),DATEPART(hour,GETDATE()-PrintTime))+':'+convert(varchar(20),DATEPART(minute,GETDATE()-PrintTime))"}
+            dataFunction:"convert(varchar(20),DATEPART(hour,GETDATE()-PrintTime))+':'+convert(varchar(20),DATEPART(minute,GETDATE()-PrintTime))"},
+        {data: "sWaitTime", name: "Время ожидания", width: 60, type: "dateAsText",align:"center", dataSource:"t_SaleTempD",
+            dataFunction:"CASE When FactServingTime is null Then convert(varchar(20),DATEPART(hour,GETDATE()-PrintTime))+':'+convert(varchar(20),DATEPART(minute,GETDATE()-PrintTime)) "+
+                "Else 'ГОТОВО '+convert(varchar(20),datediff(minute,FactServingTime,GETDATE()))+' мин' END"}
     ];
     app.get("/mobile/restKitchOrdsForCook/getDataForRestKitchOrdsForCookDataTable", function(req,res){
         z_Vars.getDataItem(req.dbUC,{fields:["VarValue"],conditions:{"VarName=":"i_RestKitCats"}},
@@ -48,10 +54,13 @@ module.exports.init = function(app){
                         errorMessage:"Не удалось получить фильтр категорий для списка товаров в заказах на кухню!"});
                     return;
                 }
-                var conditions={"PrintTime is not null":null, "FactServingTime is null":null, "PosStatus=":1},
+                var conditions={"PrintTime is not null":null,
+                        "((FactServingTime is null and PosStatus=1) or datediff(minute,FactServingTime,GETDATE())<=5)":null
+                    },
                     iRestKitCatsFilter="r_Prods.PCatID in ("+resultGetVarRestKitCats.item["VarValue"]+")";
                 conditions[iRestKitCatsFilter]=null;
-                t_SaleTempD.getDataItemsForTable(req.dbUC,{tableColumns:tSaleTempDTableColumns, conditions:conditions, order:"PrintTime"},
+                t_SaleTempD.getDataItemsForTable(req.dbUC,{tableColumns:tSaleTempDTableColumns, conditions:conditions,
+                        order:"CASE When FactServingTime is null Then 1 Else -datediff(minute,FactServingTime,GETDATE()) END, PrintTime"},
                     function(result){
                         res.send(result);
                     });
