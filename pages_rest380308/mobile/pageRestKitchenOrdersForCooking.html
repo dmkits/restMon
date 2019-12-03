@@ -55,35 +55,35 @@
         </table>
         <table class="mobile-table-large-size" height="30px" style="position:fixed;left:1px;top:88px;width:calc(100% - 2px);z-index:100;">
             <thead>
-            <tr width="100%">
-                <th width="75px"><div class="table-header-large">Код заказа</div></th>
-                <th width="70px"><div class="table-header-large">Начало заказа</div></th>
+            <tr width="100%" style="font-size:18px">
+                <th width="110px"><div class="table-header-large">Код заказа</div></th>
+                <th width="80px"><div class="table-header-large">Начало заказа</div></th>
                 <th><div class="table-header-large">Наименование товара</div></th>
-                <th width="50px"><div class="table-header-large">Ед.<br>изм.</div></th>
-                <th width="45px"><div class="table-header-large">Кол-во</div></th>
-                <th width="65px"><div class="table-header-large">Ожидание</div></th>
+                <th width="60px"><div class="table-header-large">Ед.<br>изм.</div></th>
+                <th width="60px"><div class="table-header-large">Кол-во</div></th>
+                <th width="100px"><div class="table-header-large">Ожидание</div></th>
             </tr>
             </thead>
             <tbody style="display:none">
-            <tr rowSelecting="true" onClick="restKitchOrdsForCookTableTROnClick">
-                <td width="75px" class="text-centered" dataItemName="OrderID"><div class="table-text"></div></td>
-                <td width="70px" class="text-centered" dataItemName="sPrintTime"><div class="table-text"></div></td>
+            <tr style="font-size:18px" rowSelecting="true" onClick="restKitchOrdsForCookTableTROnClick">
+                <td width="110px" class="text-centered" dataItemName="OrderID"><div class="table-text"></div></td>
+                <td width="80px" class="text-centered" dataItemName="sPrintTime"><div class="table-text"></div></td>
                 <td class="tdProdName" dataItemName="ProdName"><div class="table-text"></div></td>
-                <td width="50px" class="text-centered" dataItemName="UM"><div class="table-text"></div></td>
-                <td width="45px" class="tdQty" dataItemName="Qty"><div class="table-text"></div></td>
-                <td width="65px" class="text-centered" dataItemName="WaitTime"><div class="table-text" style="font-weight:bold"></div></td>
+                <td width="60px" class="text-centered" dataItemName="UM"><div class="table-text"></div></td>
+                <td width="60px" class="tdQty" dataItemName="Qty"><div class="table-text"></div></td>
+                <td width="100px" class="text-centered" dataItemName="WaitTime"><div class="table-text" style="font-weight:bold"></div></td>
             </tr>
             </tbody>
         </table>
         <table class="mobile-table-small-size" style="margin-top:33px;margin-bottom:30px;width:100%"></table>
-        <table class="mobile-table-large-size" style="margin-top:33px;margin-bottom:30px;width:100%"></table>
+        <table class="mobile-table-large-size" style="margin-top:51px;margin-bottom:30px;width:100%"></table>
         <table height="30px" style="position:fixed;left:1px;bottom:0px;width:calc(100% - 2px);z-index:100">
             <tfoot>
-            <tr>
-                <td id="totalRows" width="75px"><span class="table-total">0</span></td>
+            <tr style="font-size:16px">
+                <td id="totalRows" width="110px"><span class="table-total">0</span></td>
                 <td><span class="table-total"></span></td>
-                <td id="totalQty" width="45px"><span class="table-total">0</span></td>
-                <td width="65px"></td>
+                <td id="totalQty" width="60px"><span class="table-total">0</span></td>
+                <td width="100px"></td>
             </tr>
             </tfoot>
         </table>
