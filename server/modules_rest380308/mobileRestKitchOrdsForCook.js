@@ -44,7 +44,7 @@ module.exports.init = function(app){
             dataFunction:"convert(varchar(20),DATEPART(hour,GETDATE()-PrintTime))+':'+convert(varchar(20),DATEPART(minute,GETDATE()-PrintTime))"},
         {data: "sWaitTime", name: "Время ожидания", width: 60, type: "dateAsText",align:"center", dataSource:"t_SaleTempD",
             dataFunction:"CASE When FactServingTime is null Then convert(varchar(20),DATEPART(hour,GETDATE()-PrintTime))+':'+convert(varchar(20),DATEPART(minute,GETDATE()-PrintTime)) "+
-                "Else 'ГОТОВО '+convert(varchar(20),datediff(minute,FactServingTime,GETDATE()))+' мин' END"}
+                "Else 'ГОТОВО \n'+convert(varchar(20),datediff(minute,FactServingTime,GETDATE()))+' мин' END"}
     ];
     app.get("/mobile/restKitchOrdsForCook/getDataForRestKitchOrdsForCookDataTable", function(req,res){
         z_Vars.getDataItem(req.dbUC,{fields:["VarValue"],conditions:{"VarName=":"i_RestKitCats"}},
