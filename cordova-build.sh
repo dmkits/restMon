@@ -14,3 +14,8 @@ cordova build
 # AndroidStudio > Tools > AVD Manager
 # and start Your Virtual Device (Nexus 5X API 29 x86)
 cordova emulate android
+
+# for release build:
+keytool -genkey -v -keystore restmon.keyst -alias restmon -keyalg RSA -keysize 2048 -validity 10000
+#password restmonkey
+cordova build android --release -- --keystore="restmon.keystore" --storePassword=restmonkey --alias=restmon --password=restmonkey

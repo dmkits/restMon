@@ -138,5 +138,5 @@ cordova build android --release -- --gradleArg=-PcdvMinSdkVersion=19
 
 before build release do this:
 keytool -genkey -v -keystore key-name.keystore -alias alias-name -keyalg RSA -keysize 2048 -validity 10000
-cordova build android --release -- --keystore="/path/to/keystore" --storePassword=password --alias=alias_name
+cordova build android --release -- --keystore="/path/to/keystore" --storePassword=password --alias=alias_name --password=password
 #password will be prompted if you have any
