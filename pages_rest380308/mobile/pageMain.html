@@ -175,6 +175,7 @@
                 $$('#pageMain-mobileLogin #mobileLogin-checkboxStoreUser').prop('checked',true);
             },
             loginProcess: function(){
+                $$('#appbar-user').text("");$$('#appbar-modeMsg').text("");
                 var username = $$('#pageMain-mobileLogin #mobileLogin-inputUsername').val(),
                         password = $$('#pageMain-mobileLogin #mobileLogin-inputUPswrd').val(),
                         self=this;
@@ -203,9 +204,7 @@
                             app7.data["dbUserError"]= (result)?result.dbUserError:null;
                             app7.data["dbUserName"]= (result)?result.dbUserName:null;
                             var dbEmpName= (result)?result.dbEmpName:null;
-                            app7.data["dbEmpName"]= dbEmpName;
-                            $$('#appbar-user').text(app7.data["dbUserName"]+((dbEmpName)?" ("+dbEmpName+")":""));
-                            app7.data["dbEmpRole"]= (result)?result.dbEmpRole:null;
+                            app7.data["dbEmpName"]= dbEmpName; app7.data["dbEmpRole"]= (result)?result.dbEmpRole:null;
                             if(!result||!result.uuid){ $$('#pageMain-mobileLogin #mobileLogin-inputUPswrd').focus(); return; }
                             var sErrMsg=null;
                             if(!app7.version)sErrMsg= "Неизвестная версия приложения!";
@@ -216,6 +215,7 @@
                                 app7.dialog.alert(sErrMsg,"Внимание",function(){});
                                 return;
                             }
+                            $$('#appbar-user').text(app7.data["dbUserName"]+((dbEmpName)?" ("+dbEmpName+")":""));
                             $$('#pageMain-mobileLogin #mobileLogin-inputUsername').val("");
                             if(typeof(Storage)!=="undefined"){
                                 localStorage.setItem("mobileLogin-username",username);

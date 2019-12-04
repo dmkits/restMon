@@ -54,7 +54,7 @@ module.exports.init = function(app){
                         errorMessage:"Не удалось получить фильтр категорий для списка товаров в заказах на кухню!"});
                     return;
                 }
-                var cookedOrdsShowTime= req.query["CookedOrdsShowTime~"], cookedOrdsShowTime= (!isNaN(cookedOrdsShowTime))?cookedOrdsShowTime:5,
+                var cookedOrdsShowTime= req.query["CookedOrdsShowTime~"], cookedOrdsShowTime= (!isNaN(cookedOrdsShowTime))?cookedOrdsShowTime:0,
                     conditions={"PrintTime is not null":null},
                     condKitchOrders= "((FactServingTime is null and PosStatus=1) or datediff(minute,FactServingTime,GETDATE())<"+cookedOrdsShowTime+")",
                     iRestKitCatsFilter="r_Prods.PCatID in ("+resultGetVarRestKitCats.item["VarValue"]+")";
