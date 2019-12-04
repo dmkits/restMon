@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--<link rel="icon" type="image/gif" href="/icons/ico32x32.ico"/>-->
+    <script type="text/javascript" src="/jslib/dojoApp.js" handsontable="handsontable-0.26.0" htableStyle="/css/htable.css"></script></head>
+    <title><%-title%></title>
+</head>
+<body class="claro">
+    <page id="loginPage" design="headline">
+        <ConfirmDialog id="loginDialog" title="Авторизация" autofocus="false">
+            <div id="loginDialogDiv" style="width:250px; padding:4px"><%-loginMsg%></div>
+            <table id="auth_admin_dialog_table" width="240px">
+                <tr>
+                    <td><label for="user_name">Имя:</label></td>
+                    <td><input type="text" name="user_name" id="user_name"></td>
+                </tr>
+                <tr>
+                    <td><label for="user_password">Пароль:</label></td>
+                    <td><input type="password" name="user_password" id="user_password"></td>
+                </tr>
+            </table>
+        </ConfirmDialog>
+    </page>
+</body>
+<script type="text/javascript"> //$app.dev(true);
+    $app.startup("#loginPage",function(){                                                                       log("START LOGIN PAGE...", $$);//!!!IT'S FOR TESTING!!!
+        //moment.locale("uk");
+        $$.loginDialog.set("buttonOk","Войти");
+        $$.loginDialog.set("buttonCancel","Отмена");
+        $$.loginDialog.onExecute= function(){
+            var user= $$.user_name.value.trim(), pswrd= $$.user_password.value.trim();
+            $$.request.postJSON({url:"/login", data:{user:user,pswrd:pswrd}, consoleLog:true},function(result,error){
+                if(error||!result||result.error){
+                    error= error||(result&&result.error)?result.error:{error:"UNKNOWN! NO RESULT!"};
+                    var errMsg= error.userMessage||error.message||error.error;
+                    $$.loginDialogDiv.innerHTML= '<div style="color:red; padding:4px; width: 240px;">'+errMsg+'</div>';
+                    $$.loginDialog.reset();
+                    return;
+                }
+                if(result&&result.uuid&&result.uuid.toString().trim()!=""){
+                    if(window.location.href.indexOf("/login")>=0)window.location.replace("/");
+                    else window.location.replace(window.location.href);
+                }else{
+                    $$.loginDialogDiv.innerHTML=
+                            '<div style="color:red; padding:4px; width: 240px;">Авторизация не удалась.<br>Попробуйте снова.</div>';
+                    $$.loginDialog.reset();
+                }
+            });
+        };
+        $$.loginDialog.on("keypress",function(event){
+            if(event.keyCode==13/*ENTER*/) $$.loginDialog.onExecute();
+        });
+        $$.loginDialog.show();
+    });
+</script>
+</html>

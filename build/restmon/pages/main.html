@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru-ua">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" lang="ru" Accept-Language="ru"/>
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <![endif]-->
+    <script type="text/javascript" src="/jslib/dojoApp.js" handsontable="handsontable-0.26.0" htableStyle="/css/htable.css"></script></head>
+    <!--[if IE]>
+    <link rel="stylesheet" type="text/css" href="/css/main_ie.css">
+    <![endif]-->
+    <!--[if !IE]>-->
+    <link rel="stylesheet" type="text/css" href="/css/main.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/css/main_nie.css">
+    <!--<![endif]-->
+    <link rel="stylesheet" type="text/css" href="/css/contentController.css" media="screen">
+    <title>MAIN</title>
+</head>
+<body class="claro"><!--soria,nihilo,tundra-->
+<page id="main_page" design="headline">
+    <BorderContainer id="main_pageTop" region="top" design="sidebar" class="mainTopContent" gutters="true">
+        <ContentPane id="main_topImg" region="left" class="mainTopContent"></ContentPane>
+        <MenuBar id="main_mainMenu" region="top" class="mainTopContent"></MenuBar>
+        <ContentPane id="main_topInfoPane" region="bottom" class="mainTopContent">
+            <span id="main_stateFail"></span>
+            <span id="main_modeName" style="margin-left:10px;"></span>
+            <span id="main_configName" style="margin-left:10px;"></span>
+            <span id="sysadmin_appUser" style="margin-left:10px;"></span>
+            <span id="main_dbEmpName" style="margin-left:10px;"></span>
+        </ContentPane>
+    </BorderContainer>
+    <TabContainer id="main_tabs" region="center" tabPosition="top" class="mainContent"></TabContainer>
+</page>
+</body>
+<script type="text/javascript"> $app.dev(true);
+    $app.startup("#main_page",function(){                                                                       log("START MAIN PAGE...",$$);//!!!IT'S FOR TESTING!!!
+        function setBrending(appConfig){
+            if(appConfig.title) document.title=appConfig.title;
+            if(appConfig.icon32x32) changeFavicon(appConfig.icon32x32);
+            if(appConfig.imageSmall) $$.main_topImg.set("style","background-image: url(\""+appConfig.imageSmall+"\")");
+        }
+        function changeFavicon(src){
+            document.head = document.head || document.getElementsByTagName('head')[0];
+            var link= document.createElement('link'), oldLink= document.getElementById('dynamic-favicon');
+            link.id= 'dynamic-favicon'; link.rel= 'shortcut icon'; link.href= src;
+            if(oldLink) document.head.removeChild(oldLink);
+            document.head.appendChild(link);
+        }
+        var updateMainState= function(result,error){
+            $$.main_stateFail.innerHTML="";
+            if(error||!result){
+                error=error||{message:"NO DATA FROM SERVER!"};
+                $$.main_page.mainContentData = {error:error};
+                $$.main_stateFail.innerHTML='<b>FAILED: </b><span style="color:red">'+error.message+'</span>';
+                return;
+            }
+            $$.main_page.mainContentData= result;
+            $$.main_modeName.innerHTML= "<b>Режим приложения:</b> ";
+            var sDBUserPostfix="";
+            if(result.mode){
+                sDBUserPostfix= " ["+result.mode+"]";
+                var sMode=result.mode.toString().toLocaleLowerCase();
+                if(sMode.indexOf("test")>=0||sMode.indexOf("debug")>=0)
+                    $$.main_modeName.innerHTML+= "<b style='color:red'>"+result.mode+"</b>";
+                else if(sMode.indexOf("production")>=0)
+                    $$.main_modeName.innerHTML= "";
+                $$.main_modeName.setAttribute("title",result.mode);
+            }else{
+                sDBUserPostfix= " [UNKNOWN MODE]";
+                $$.main_modeName.innerHTML+= "<b>UNKNOWN!!!</b>";
+                $$.main_modeName.setAttribute("title","UNKNOWN!");
+            }
+            $$.sysadmin_appUser.innerHTML= "<b>Пользователь: <span style='color:dimgrey'>"+result.dbUserName;
+            $$.sysadmin_appUser.setAttribute("title",result.dbUserName+sDBUserPostfix);
+            setBrending(result.appConfig);
+        };
+        var closeAction= function(menuItemData){
+            $$.main_mainMenu.destroy(); $$.main_tabs.destroy();
+            $$.request.postJSONData({url:"/exit"},function(result){
+                var exitContent;
+                if(result&&result.actionResult=="successful"){
+                    exitContent= "<div>Вы закрыли все окна и вышли из рабочей сессии. <a href='/login'>Войти</a></div>";
+                    $$.main_page.$.addInnerPage({region:"center", title:menuItemData.menuTitle, closable:false, style:"margin:0;padding:0;",content:exitContent});
+                    return;
+                }
+                var cookies= document.cookie.split(";");
+                for(var i=0; i<cookies.length; i++){
+                    var cookie= cookies[i], eqPos = cookie.indexOf("="), name= eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                    if(name!="uuid") continue;
+                    document.cookie= name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                }
+                exitContent= "<div>Вы закрыли все окна.</div>";
+                $$.main_page.$.addInnerPage({region:"center", title:menuItemData.menuTitle, closable:false, style:"margin:0;padding:0;",content:exitContent});
+            });
+        };
+        var aboutAction= function(menuItemData){
+            $$.dialogs.showSimple({title:"О программе",
+                content:"Система <b>RestMon</b>. <br>Разработчик: dmkits<br> 2019",
+                btnOkLabel:"Закрыть"
+            });
+        };
+        var runMenuAction= function(itemData){
+            var mainTabs=$$.main_tabs;
+            if(itemData.action=="close"){ closeAction(itemData); return; }
+            else if(itemData.action=="help_about"){ aboutAction(itemData); return; }
+            var iPageName="innerPage_"+itemData.menuItemName, iPageInstance=mainTabs.$.cid(iPageName);
+            if(!iPageInstance){
+                mainTabs.$.addInnerPage({id:iPageName, title:itemData.pageTitle, region:"center",style:"margin:0;padding:0;",
+                            closable:itemData.closable, href:itemData.contentHref
+                        },
+                        function(innerPage){
+                            iPageInstance= mainTabs[iPageName]=innerPage;
+                        });
+            }
+            var ch= mainTabs.selectChild(iPageName);
+        };
+        var createMainMenu= function(mainMenuData){
+            var menuClickAddInnerPage= function(menuItem,e){
+                runMenuAction(menuItem.itemData);
+            };
+            var mainMenu=$$.main_mainMenu;
+            for(var i in mainMenuData){
+                var mainMenuDataItem= mainMenuData[i];
+                if(!mainMenuDataItem.popupMenu||mainMenuDataItem.popupMenu.length==0){
+                    mainMenu.$.addMenu("MenuBarItem", {id:mainMenuDataItem.menuItemName,label:mainMenuDataItem.menuTitle,itemData:mainMenuDataItem,
+                        click:menuClickAddInnerPage
+                    });
+                    continue;
+                }
+                // make sub-menu
+                mainMenu.$.addMenu("PopupMenuBarItem", {id:mainMenuDataItem.menuItemName,label:mainMenuDataItem.menuTitle},
+                        function(menuBar){
+                            for(var pi in mainMenuDataItem.popupMenu){
+                                var popupMenuItem= mainMenuDataItem.popupMenu[pi], popupMenuItemName= popupMenuItem.menuItemName;
+                                if(popupMenuItemName&&popupMenuItemName.indexOf("separator")==0){
+                                    menuBar.$.addMenu("MenuSeparator",{id:popupMenuItem.menuItemName});
+                                    continue;
+                                }
+                                menuBar.$.addMenu("MenuItem",{id:popupMenuItem.menuItemName,label:popupMenuItem.menuTitle,itemData:popupMenuItem,
+                                    click:menuClickAddInnerPage
+                                });
+                            }
+                        });
+            }
+        };
+        var runAutorunActions= function(mainContentData){
+            if(!mainContentData||!mainContentData.autorun) return;
+            var autorunActions= mainContentData.autorun;
+            for(var autorunIndex in autorunActions){
+                var autorunMenuItemName= autorunActions[autorunIndex], mainMenu= mainContentData.menuBar;
+                for(var i in mainMenu){// create and add main menu items
+                    var item=mainMenu[i];
+                    if(item.popupMenu == null || item.popupMenu.length == 0){
+                        if(item.menuItemName==autorunMenuItemName) runMenuAction(item);
+                    }else{
+                        for(var pi in item.popupMenu){
+                            var pitem = item.popupMenu[pi];
+                            if(pitem.menuItemName==autorunMenuItemName) runMenuAction(pitem);
+                        }
+                    }
+                }
+            }
+        };
+        $$.getMainData= function(){
+            $$.request.getJSONData({url:"/getMainData"},function(result,error){
+                updateMainState(result,error);
+                if(!result) return;
+                createMainMenu(result.menuBar);
+                runAutorunActions(result);
+            });
+        };
+        $$.getMainData();
+    });
+</script>
+</html>

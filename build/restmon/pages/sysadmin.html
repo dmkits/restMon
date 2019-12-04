@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru-ua">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" lang="ru" Accept-Language="ru"/>
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <![endif]-->
+    <script type="text/javascript" src="/jslib/dojoApp.js" handsontable="handsontable-0.26.0" htableStyle="/css/htable.css"></script></head>
+    <link rel="stylesheet" type="text/css" href="/css/sysadmin.css" media="screen">
+    <title>SYSADMIN</title>
+</head>
+<body class="claro">
+<page id="sysadmin_page" design="headline">
+    <BorderContainer id="sysadmin_TopContainer" region="top" design="sidebar" liveSplitters="false" class="sysadmin_TopContent" gutters="true" style="height:63px; margin:0; padding:0">
+        <ContentPane id="sysadmin_TopImg" region="left" splitter="false" class="sysadmin_TopContent"></ContentPane>
+        <ContentPane region="top" splitter="false" class="sysadmin_TopContent" style="margin:0;margin-left:-6px;height:28px;padding:0;">
+            <div class="sysadmin_TopContent" style="width:calc(100% - 10px);height:100%;margin:0;padding:0 5px 0 5px;">
+                <div id="sysadmin_TopStateInfo" style="width:100%;height:100%">
+                    <div id="sysadmin_getStateFail" class="sysadmin_TopStateInfoElements" style="max-width:200px;height:100%"></div>
+                    <div id="sysadmin_appMode" class="sysadmin_TopStateInfoElements" style="max-width:300px;height:100%"></div>
+                    <div id="sysadmin_appPort" class="sysadmin_TopStateInfoElements" style="max-width:300px;height:100%"></div>
+                    <div id="sysadmin_appUser" class="sysadmin_TopStateInfoElements" style="max-width:300px;height:100%"></div>
+                    <div id="sysadmin_dbName" class="sysadmin_TopStateInfoElements" style="max-width:300px;height:100%;"></div>
+                    <div id="sysadmin_dbConnectionState" class="sysadmin_TopStateInfoElements" style="max-width:300px;height:100%"></div>
+                    <div id="sysadmin_dbValidateState" class="sysadmin_TopStateInfoElements" style="max-width:300px;height:100%"></div>
+                    <div id="sysadmin_loadInitModulesState" class="sysadmin_TopStateInfoElements" style="max-width:300px;height:100%"></div>
+                </div>
+            </div>
+        </ContentPane>
+        <ContentPane id="sysadmin_TopActions" region="bottom" class="sysadmin_TopContent">
+            <StackController style="" containerId="sysadmin_ContentContainer"></StackController>
+            <Button id="sysadmin_btnLogout" style="position:absolute;right:5px;">Logout</Button>
+        </ContentPane>
+    </BorderContainer>
+    <StackContainer id="sysadmin_ContentContainer" region="center" tabPosition="top" childIconClass="dijitCheckBoxIcon">
+        <InnerPage title="System config" iconClass="dijitCheckBoxIcon" href="/sysadmin/sysConfig"></InnerPage>
+        <InnerPage title="Database" iconClass="dijitCheckBoxIcon" href="/sysadmin/database" style="margin:0;padding:0;"></InnerPage>
+        <InnerPage title="Logins" iconClass="dijitCheckBoxIcon" href="/sysadmin/logins" style="margin:0;padding:0;"></InnerPage>
+        <InnerPage title="Logs" iconClass="dijitCheckBoxIcon" href="/sysadmin/logs" style="margin:0;padding:0;"></InnerPage>
+    </StackContainer>
+</page>
+</body>
+<script type="text/javascript"> //$app.dev(true);
+    $app.startup("#sysadmin_page",function(){                                                               log("START SYSADMIN PAGE...",this,$$);//!!!IT'S FOR TESTING!!!
+        $$.sysadmin_btnLogout.onClick=function(){
+            $$.request.postJSONData({url:"/exit",consoleLog:true},function(result){
+                if(result&&result.actionResult=="successful"){
+                    window.location.replace(window.location.href);
+                    return;
+                }
+                var cookies= document.cookie.split(";");
+                for(var i=0; i<cookies.length; i++){
+                    var cookie= cookies[i], eqPos= cookie.indexOf("="), name= eqPos>-1 ? cookie.substr(0,eqPos) : cookie;
+                    if(name!="uuid") continue;
+                    document.cookie= name+"=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                }
+                window.location.replace(window.location.href);
+            });
+        };
+        function setBrending(appConfig){
+            if(appConfig.title) document.title=appConfig.title+" SYSADMIN";
+            if(appConfig.icon32x32)changeFavicon(appConfig.icon32x32);
+            if(appConfig.imageSmall)$$.sysadmin_TopImg.set("style","background-image: url(\""+appConfig.imageSmall+"\")");
+        }
+        function changeFavicon(src) {
+            document.head = document.head || document.getElementsByTagName('head')[0];
+            var link = document.createElement('link'),
+                    oldLink = document.getElementById('dynamic-favicon');
+            link.id = 'dynamic-favicon';link.rel = 'shortcut icon';link.href = src;
+            if(oldLink)document.head.removeChild(oldLink);
+            document.head.appendChild(link);
+        }
+        /**
+         * params = { revalidate:true }
+         */
+        $$.sysadmin_page.updateSysState = function(params){
+            var conds=(!params||!params.revalidate)?null:{revalidate:true};
+            $$.request.getJSONData({url:"/sysadmin/sysState",conditions:conds,consoleLog:true},function(result,error){
+                $$.sysadmin_getStateFail.innerHTML="";
+                if(error){
+                    $$.sysadmin_page.mainContentData = {error:error};
+                    $$.sysadmin_getStateFail.innerHTML='<b>FAILED: </b><span style="color:red">'+error.message+'</span>';
+                }
+                if(result){
+                    $$.sysadmin_page.mainContentData = result;
+                    $$.sysadmin_appMode.innerHTML = "<b>MODE: </b>";
+                    if(result.mode){
+                        var sMode=result.mode.toString().toLocaleLowerCase();
+                        if(sMode.indexOf("test")>=0||sMode.indexOf("debug")>=0)
+                            $$.sysadmin_appMode.innerHTML+= "<b style='color:red'>"+result.mode+"</b>";
+                        else
+                            $$.sysadmin_appMode.innerHTML+= "<b style='color:dimgrey'>"+result.mode+"</b>";
+                        $$.sysadmin_appMode.setAttribute("title",result.mode);
+                    }else {
+                        $$.sysadmin_appMode.innerHTML += "<b>UNKNOWN!!!</b>";
+                        $$.sysadmin_appMode.setAttribute("title","UNKNOWN!");
+                    }
+                    $$.sysadmin_appPort.innerHTML="<b>APP PORT: </b><b style='color:dimgrey'>"+result.port+"</b>";
+                    $$.sysadmin_appPort.setAttribute("title",result.port);
+                    if(result.dbUserError){
+                        $$.sysadmin_appUser.innerHTML="<b>APP USER: <span style='color:dimgrey'>("+result.dbUserName+") </span>"+
+                                "<span style='color:red'>"+result.dbUserError+"</span></b>";
+                        $$.sysadmin_appUser.setAttribute("title","("+result.dbUserName+") "+result.dbUserError);
+                    }else{
+                        $$.sysadmin_appUser.innerHTML="<b>APP USER: <span style='color:dimgrey'>"+result.dbUserName+"</span></b>";
+                        $$.sysadmin_appUser.setAttribute("title",result.dbUserName);
+                    }
+                    if(!result.sysConfig)result.sysConfig={};
+                    $$.sysadmin_dbName.innerHTML="<b>DB NAME: <span style='color:dimgrey'>"+result.sysConfig.dbName+"</span></b>";
+                    $$.sysadmin_dbName.setAttribute("title",result.sysConfig.dbName);
+                    var dbSysConnState=(result.dbSysConnErr)
+                            ?'<span style="color:red">'+result.dbSysConnErr+'</span>'
+                            :'<span style="color:dimgrey">Connected</span>';
+                    $$.sysadmin_dbConnectionState.innerHTML ='<b>DB SYSTEM CONNECTION STATE: '+dbSysConnState+'</b>';
+                    $$.sysadmin_dbConnectionState.setAttribute("title",result.dbSysConnErr||"Connected");
+                    var dbValidState=(result.dbValidationErr)
+                            ?'<span style="color:red">'+result.dbValidationErr+'</span>'
+                            :'<span style="color:dimgrey">'+result.dbValidation+'</span>';
+                    $$.sysadmin_dbValidateState.innerHTML ='<b>DB VALIDATION STATE: '+dbValidState+'</b>';
+                    $$.sysadmin_dbValidateState.setAttribute("title",result.dbValidationErr||result.dbValidation);
+                    var loadInitModulesState=(result.loadInitModulesErr)
+                            ?'<span style="color:red">'+result.loadInitModulesErr+'</span>'
+                            :'<span style="color:dimgrey">OK</span>';
+                    $$.sysadmin_loadInitModulesState.innerHTML ='<b>LOAD-INIT APP MODULES STATE: '+loadInitModulesState+'</b>';
+                    $$.sysadmin_loadInitModulesState.setAttribute("title",result.loadInitModulesErr||"OK");
+                    setBrending(result.appConfig);
+                }
+            })
+        };
+        $$.sysadmin_ContentContainer.updateSysState=$$.sysadmin_page.updateSysState;
+        $$.sysadmin_page.updateSysState();
+    });
+</script>
+</html>

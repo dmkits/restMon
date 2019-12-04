@@ -1,0 +1,55 @@
+<!--suppress ALL, JSAnnotator -->
+<template>
+<div class="page" id="pageSettingsMAppCommon">
+    <div class="navbar">
+        <div class="navbar-inner sliding">
+            <div class="left">
+                <a href="#" class="link back">
+                    <i class="icon icon-back"></i>
+                    <span class="ios-only">Назад</span>
+                </a>
+            </div>
+            <div class="title">Общие настройки</div>
+        </div>
+    </div>
+    <div class="page-content">
+        <div class="block-title">Доступ</div>
+        <div class="list no-hairlines-md">
+            <ul>
+                <li class="item-content item-input">
+                    <div class="item-inner">
+                        <div class="item-title item-label">Адрес сервера</div>
+                        <div class="item-input-wrap">
+                            <input id="pageSettingsMAppCommon-inputServerURI" type="text" placeholder="Адрес сервера">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="row" style="margin-top:0px">
+            <div class="col" style="width:0px"></div>
+            <button class="col button button-fill button-round" style="width:200px" @click="btnStoreClick">СОХРАНИТЬ</button>
+            <div class="col" style="width:0px"></div>
+        </div>
+    </div>
+</div>
+</template>
+<script>
+    return {
+        on: {
+            pageAfterIn: function(e,page){
+                $$("#pageSettingsMAppCommon-inputServerURI").val(this.$app.data['serverURI']);
+            }
+        },
+        methods: {
+            btnStoreClick: function(){
+                let srvURI= $$("#pageSettingsMAppCommon-inputServerURI").val();
+                if(typeof(Storage)!=="undefined"&&srvURI&&srvURI.toString().trim()!=""){
+                    localStorage.setItem("settings-serverURI",srvURI);
+                }else{// Sorry! No Web Storage support..
+                }
+                this.$app.data['serverURI']= srvURI;
+            }
+        }
+    }
+</script>

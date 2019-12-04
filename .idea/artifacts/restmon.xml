@@ -1,0 +1,36 @@
+<component name="ArtifactManager">
+  <artifact name="restmon">
+    <output-path>$PROJECT_DIR$/build/restmon</output-path>
+    <root id="root">
+      <element id="directory" name="node_modules">
+        <element id="dir-copy" path="$PROJECT_DIR$/node_modules" />
+      </element>
+      <element id="directory" name="pages">
+        <element id="dir-copy" path="$PROJECT_DIR$/pages" />
+        <element id="dir-copy" path="$PROJECT_DIR$/pages_rest380308" />
+      </element>
+      <element id="directory" name="public">
+        <element id="dir-copy" path="$PROJECT_DIR$/public" />
+      </element>
+      <element id="directory" name="server">
+        <element id="directory" name="datamodel">
+          <element id="dir-copy" path="$PROJECT_DIR$/server/datamodel_rest380308" />
+        </element>
+        <element id="directory" name="modules">
+          <element id="dir-copy" path="$PROJECT_DIR$/server/modules_rest380308" />
+        </element>
+        <element id="file-copy" path="$PROJECT_DIR$/server/access.js" />
+        <element id="file-copy" path="$PROJECT_DIR$/server/common.js" />
+        <element id="file-copy" path="$PROJECT_DIR$/server/databaseMSSQL.js" />
+        <element id="file-copy" path="$PROJECT_DIR$/server/server.js" />
+      </element>
+      <element id="file-copy" path="$PROJECT_DIR$/configRest380308.json" />
+      <element id="file-copy" path="$PROJECT_DIR$/productionRest380308.cfg" />
+      <element id="file-copy" path="$PROJECT_DIR$/debugRest380308.cfg" />
+      <element id="file-copy" path="$PROJECT_DIR$/prodTstRest380308.cfg" />
+      <element id="file-copy" path="$PROJECT_DIR$/start_58081-rest380308.cmd" />
+      <element id="file-copy" path="$PROJECT_DIR$/start_8081-rest380308-prodTst.cmd" />
+      <element id="file-copy" path="$PROJECT_DIR$/start_8181-rest380308-debug-noCL.cmd" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,85 @@
+<!--suppress ALL, JSAnnotator -->
+<template>
+<div class="page" id="pageHelpAbout-view">
+    <div class="navbar">
+        <div class="navbar-inner sliding">
+            <div class="left">
+                <a href="#" class="link back">
+                    <i class="icon icon-back"></i><i class="icon icon-back"></i>
+                    <!--<span class="ios-only">Назад</span>-->
+                </a>
+            </div>
+            <div class="title">Справка</div>
+        </div>
+    </div>
+    <div class="page-content">
+        <div class="block-title">О программе</div>
+        <div class="list no-hairlines-md">
+            <ul>
+                <li class="row item-content item-input">
+                    <div class="item-inner">
+                        <div class="item-inner">
+                            <div class="item-title item-label">Приложение</div>
+                            <div id="pageHelpAbout-appName" class="item-input" style="margin-top:10px"></div>
+                        </div>
+                    </div>
+                    <div class="item-inner">
+                        <div class="item-inner">
+                            <div class="item-title item-label">Версия</div>
+                            <div id="pageHelpAbout-appVer" class="item-input" style="margin-top:10px"></div>
+                        </div>
+                    </div>
+                    <div class="item-inner">
+                        <div class="item-inner">
+                            <div class="item-title item-label">Режим</div>
+                            <div id="pageHelpAbout-appMode" class="item-input" style="margin-top:10px"></div>
+                        </div>
+                    </div>
+                    <div class="item-inner">
+                        <div class="item-inner">
+                            <div class="item-title item-label">БД</div>
+                            <div id="pageHelpAbout-dbName" class="item-input" style="margin-top:10px"></div>
+                        </div>
+                    </div>
+                    <div class="item-inner">
+                        <div class="item-inner">
+                            <div class="item-title item-label">Пользователь</div>
+                            <div id="pageHelpAbout-dbUserName" class="item-input" style="margin-top:10px"></div>
+                        </div>
+                    </div>
+                    <div class="item-inner">
+                        <div class="item-inner">
+                            <div class="item-title item-label">Роль</div>
+                            <div id="pageHelpAbout-dbEmpRole" class="item-input" style="margin-top:10px"></div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</template>
+<script>
+    return {
+        on: {
+            pageAfterIn: function(e,page){
+                var appName= app7.appName||this.$app.data['appName'];
+                if(app7.data.aidcn) appName+= " ("+app7.data.aidcn+")"
+                $$("#pageHelpAbout-appName").html(appName);
+                var appVer= "Приложение: "+this.$app.version,
+                        appVerSrv= this.$app.data['appVerSrv'], appCVer= this.$app.data['appCVer'];
+                if(appVerSrv!=null){
+                    appVer+= ", Сервер: "+appVerSrv;
+                    if(appCVer!=null) appVer+= " ("+appCVer+")";
+                }
+                $$("#pageHelpAbout-appVer").html(appVer);
+                $$("#pageHelpAbout-appMode").html(this.$app.data['appMode']);
+                $$("#pageHelpAbout-dbName").html(this.$app.data['dbName']);
+                $$("#pageHelpAbout-dbUserName").html(this.$app.data['dbUserName']);
+                $$("#pageHelpAbout-dbEmpRole").html(this.$app.data['dbEmpRole']);
+            }
+        },
+        methods: {
+        }
+    }
+</script>
